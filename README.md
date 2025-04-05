@@ -1,23 +1,31 @@
 # Financial Wellness Tracker
 
-A React TypeScript application that helps users track and improve their financial wellness by providing personalized financial plans and insights.
+A React TypeScript application that helps users track and improve their financial wellness by providing personalized financial plans and insights. Created for the "CodeBuff Vibe Code" Hackathon using the CodeBuff CLI tool.
 
 ## Features
 
-- Financial data input form
-- Personalized financial plan generation
-- Monthly savings calculator
-- Expense tracking
-- Financial goal setting
-- Daily financial tips
-- Responsive design
+- Financial data input form with modern SVG icons
+- Personalized financial plan generation with dynamic visualizations
+- Monthly savings calculator with progress tracking
+- Expense tracking and reduction recommendations
+- Financial goal setting with projection charts
+- Daily financial tips categorized by impact
+- Modern marble-themed UI with light/dark mode
+- CSV download functionality with custom file naming
+- Responsive design optimized for all devices
 
 ## Tech Stack
 
 - React 
 - TypeScript
 - Context API for state management
-- CSS Modules for styling
+- Styled Components for enhanced styling
+- React Feather for SVG icons
+- Modern CSS features (backdrop-filter, custom properties)
+
+## Demo
+
+Visit the live demo: [Financial Wellness Tracker](https://arceuzvx.github.io/Financial-Wellness-Tracker/)
 
 ## Getting Started
 
@@ -52,6 +60,14 @@ The application will be available at `http://localhost:3000`
 npm run build
 ```
 
+### Deployment
+
+```bash
+npm run deploy
+```
+
+This will deploy the application to GitHub Pages.
+
 ## Project Structure
 
 ```
@@ -65,14 +81,27 @@ src/
   └── index.tsx       # Application entry point
 ```
 
-## Contributing
+## Key Features in Detail
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### CSV Download
+- Export your financial plan as a CSV file
+- Customize the filename before downloading
+- Includes all plan details, tips, and financial metrics
 
-## License
+### Marble UI Theme
+- Elegant marble-inspired design with subtle gradients
+- Light and dark mode support
+- Smooth animations and transitions
+- Glass-like card effects with backdrop-filter
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Financial Visualization
+- Interactive progress meter for savings rate
+- Weekly plan navigation
+- Category-based color coding
+- Responsive layout that adapts to all screen sizes
+
+## Hackathon Details
+
+This project was created for the "CodeBuff Vibe Code" Hackathon using the CodeBuff CLI tool, which helped streamline the development process and maintain consistent code quality.
+
+ 
