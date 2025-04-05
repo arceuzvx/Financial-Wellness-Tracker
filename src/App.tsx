@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form } from './components/Form';
 import { FinancialPlan } from './components/FinancialPlan';
 import { ThemeToggle } from './components/ThemeToggle';
+import { Footer } from './components/Footer';
 import { generateFinancialPlan } from './utils/financialCalculations';
 import { FinancialData, FinancialPlan as FinancialPlanType } from './types';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -42,6 +43,8 @@ function App() {
             <FinancialPlan plan={plan} />
           )}
         </main>
+        
+        <Footer />
       </div>
     </ThemeProvider>
   );

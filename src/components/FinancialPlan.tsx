@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FinancialPlan as FinancialPlanType } from '../types';
 import { 
   TrendingUp, 
@@ -7,7 +7,9 @@ import {
   Target, 
   Zap, 
   Award,
-  Activity
+  Activity,
+  Download,
+  Edit
 } from 'react-feather';
 
 interface Props {
@@ -61,7 +63,10 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
 
 export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const [currentWeek, setCurrentWeek] = useState(1);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [fileName, setFileName] = useState('my-financial-plan');
   const savingsRatePercentage = plan.savingsRate * 100;
+  const downloadLinkRef = useRef<HTMLAnchorElement>(null);
   
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -79,6 +84,46 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
     plan.thirtyDayPlan.slice(21, 28),
     plan.thirtyDayPlan.slice(28, 30),
   ];
+
+  const generateCSV = () => {
+    // Header row
+    let csvContent = "Day,Category,Task\n";
+    
+    // Add daily plan data
+    plan.thirtyDayPlan.forEach(day => {
+      csvContent += `${day.day},"${day.category}","${day.task}"\n`;
+    });
+    
+    // Add summary data
+    csvContent += "\nSUMMARY INFORMATION\n";
+    csvContent += `Category,${plan.category}\n`;
+    csvContent += `Savings Rate,${savingsRatePercentage.toFixed(1)}%\n`;
+    csvContent += `Additional Savings Target,$${plan.savingsTarget.toFixed(2)}\n`;
+    csvContent += `Expense Reduction Target,$${plan.expenseReductionTarget.toFixed(2)}\n`;
+    csvContent += `Projected Total Savings,$${plan.projectedSavings.toFixed(2)}\n\n`;
+    
+    // Add tips
+    csvContent += "FINANCIAL TIPS\n";
+    plan.dailyTips.forEach((tip, index) => {
+      csvContent += `${index + 1},"${tip}"\n`;
+    });
+    
+    return csvContent;
+  };
+
+  const handleDownload = () => {
+    const csv = generateCSV();
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    if (downloadLinkRef.current) {
+      downloadLinkRef.current.setAttribute('href', url);
+      downloadLinkRef.current.setAttribute('download', `${fileName}.csv`);
+      downloadLinkRef.current.click();
+    }
+    
+    setShowDownloadModal(false);
+  };
 
   return (
     <div className="financial-plan">
@@ -142,6 +187,48 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
           ))}
         </ul>
       </div>
+
+      <div className="download-section">
+        <button 
+          className="download-button"
+          onClick={() => setShowDownloadModal(true)}
+        >
+          <Download size={18} /> Download Financial Plan
+        </button>
+      </div>
+
+      {showDownloadModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Download Your Financial Plan</h3>
+            <div className="filename-input">
+              <label htmlFor="fileName">File Name:</label>
+              <div className="filename-edit-container">
+                <input
+                  type="text"
+                  id="fileName"
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                  placeholder="Enter file name"
+                />
+                <Edit size={16} className="edit-icon" />
+              </div>
+              <span className="file-extension">.csv</span>
+            </div>
+            <div className="modal-actions">
+              <button className="cancel-button" onClick={() => setShowDownloadModal(false)}>
+                Cancel
+              </button>
+              <button className="download-confirm-button" onClick={handleDownload}>
+                <Download size={16} /> Download
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Hidden download link */}
+      <a ref={downloadLinkRef} style={{ display: 'none' }}></a>
     </div>
   );
 };
