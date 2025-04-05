@@ -5,7 +5,8 @@ import { ThemeToggle } from './components/ThemeToggle';
 import { generateFinancialPlan } from './utils/financialCalculations';
 import { FinancialData, FinancialPlan as FinancialPlanType } from './types';
 import { ThemeProvider } from './contexts/ThemeContext';
-import './styles/App.css';
+import { DollarSign, TrendingUp } from 'react-feather';
+import './styles/marble-theme.css';
 
 function App() {
   const [plan, setPlan] = useState<FinancialPlanType | null>(null);
@@ -20,7 +21,10 @@ function App() {
       <div className="app">
         <header>
           <div className="header-content">
-            <h1><span role="img" aria-label="money with wings">💸</span> Financial Wellness Buddy</h1>
+            <h1>
+              <DollarSign size={24} />
+              Financial Wellness Buddy
+            </h1>
             <ThemeToggle />
           </div>
         </header>
@@ -29,7 +33,8 @@ function App() {
           {!plan ? (
             <>
               <p className="intro">
-                <span role="img" aria-label="sparkles">✨</span> Enter your financial information below to receive a personalized 30-day improvement plan.
+                <TrendingUp size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                Enter your financial information below to receive a personalized 30-day improvement plan.
               </p>
               <Form onSubmit={handleSubmit} />
             </>

@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 import { FinancialPlan as FinancialPlanType } from '../types';
+import { 
+  TrendingUp, 
+  DollarSign, 
+  Calendar, 
+  Target, 
+  Zap, 
+  Award,
+  Activity
+} from 'react-feather';
 
 interface Props {
   plan: FinancialPlanType;
@@ -11,9 +20,9 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   
   const getProgressColor = (percentage: number) => {
-    if (percentage >= 20) return '#a8e6cf';
-    if (percentage >= 10) return '#ffd3b6';
-    return '#ffaaa5';
+    if (percentage >= 20) return 'var(--success-color)';
+    if (percentage >= 10) return 'var(--warning-color)';
+    return 'var(--danger-color)';
   };
 
   return (
@@ -54,12 +63,12 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const [currentWeek, setCurrentWeek] = useState(1);
   const savingsRatePercentage = plan.savingsRate * 100;
   
-  const getCategoryEmoji = (category: string) => {
+  const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'Growing': return <span role="img" aria-label="rocket">🚀</span>;
-      case 'Stuck': return <span role="img" aria-label="lightning">⚡</span>;
-      case 'Critical': return <span role="img" aria-label="flexed biceps">💪</span>;
-      default: return <span role="img" aria-label="sparkles">✨</span>;
+      case 'Growing': return <TrendingUp size={20} />;
+      case 'Stuck': return <Zap size={20} />;
+      case 'Critical': return <Award size={20} />;
+      default: return <Activity size={20} />;
     }
   };
 
@@ -78,7 +87,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       <div className="plan-section category-section">
         <ProgressMeter percentage={savingsRatePercentage} />
         <div className={`category-badge ${plan.category.toLowerCase()}`}>
-          {getCategoryEmoji(plan.category)} {plan.category}
+          {getCategoryIcon(plan.category)} {plan.category}
         </div>
         <p className="savings-rate">
           Current Savings Rate: {savingsRatePercentage.toFixed(1)}%
@@ -87,14 +96,14 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       </div>
       
       <div className="plan-section">
-        <h3><span role="img" aria-label="money bag">💰</span> Monthly Targets</h3>
+        <h3><DollarSign size={20} /> Monthly Targets</h3>
         <p>Additional Savings Target: ${plan.savingsTarget.toFixed(2)}</p>
         <p>Expense Reduction Target: ${plan.expenseReductionTarget.toFixed(2)}</p>
         <p>Projected Total Savings: ${plan.projectedSavings.toFixed(2)}</p>
       </div>
 
       <div className="plan-section daily-plan-section">
-        <h3><span role="img" aria-label="calendar">📅</span> Your 30-Day Action Plan</h3>
+        <h3><Calendar size={20} /> Your 30-Day Action Plan</h3>
         <div className="week-selector">
           {[1, 2, 3, 4, 5].map((week) => (
             <button
@@ -110,7 +119,11 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
           {weeks[currentWeek - 1].map((action) => (
             <div key={action.day} className={`daily-task ${action.category}`}>
               <div className="day-number">Day {action.day}</div>
-              <div className="task-emoji">{action.emoji}</div>
+              <div className="task-emoji">
+                {action.category === 'awareness' && <Activity size={20} />}
+                {action.category === 'habit' && <Award size={20} />}
+                {action.category === 'action' && <Zap size={20} />}
+              </div>
               <div className="task-text">{action.task}</div>
               <div className="task-category">{action.category}</div>
             </div>
@@ -119,10 +132,13 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       </div>
 
       <div className="plan-section">
-        <h3><span role="img" aria-label="target">🎯</span> Key Financial Tips</h3>
-        <ul>
+        <h3><Target size={20} /> Key Financial Tips</h3>
+        <ul className="key-tips">
           {plan.dailyTips.map((tip, index) => (
-            <li key={index}>{tip}</li>
+            <li key={index}>
+              <DollarSign size={18} className="tip-icon" />
+              <span className="tip-text">{tip}</span>
+            </li>
           ))}
         </ul>
       </div>

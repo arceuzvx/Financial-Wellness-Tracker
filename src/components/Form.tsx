@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FinancialData } from '../types';
+import { DollarSign, CreditCard, Briefcase, Target } from 'react-feather';
 
 interface FormProps {
   onSubmit: (data: FinancialData) => void;
@@ -29,7 +30,8 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="financial-form">
       <div className="form-group">
-        <label htmlFor="monthlyIncome">Monthly Income ($)</label>
+        <label htmlFor="monthlyIncome">Monthly Income</label>
+        <Briefcase size={18} />
         <input
           type="number"
           id="monthlyIncome"
@@ -39,11 +41,13 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           required
           min="0"
           step="0.01"
+          placeholder="Enter your monthly income"
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="monthlyExpenses">Monthly Expenses ($)</label>
+        <label htmlFor="monthlyExpenses">Monthly Expenses</label>
+        <CreditCard size={18} />
         <input
           type="number"
           id="monthlyExpenses"
@@ -53,11 +57,13 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           required
           min="0"
           step="0.01"
+          placeholder="Enter your monthly expenses"
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="monthlySavings">Current Monthly Savings ($)</label>
+        <label htmlFor="monthlySavings">Current Monthly Savings</label>
+        <DollarSign size={18} />
         <input
           type="number"
           id="monthlySavings"
@@ -67,11 +73,13 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           required
           min="0"
           step="0.01"
+          placeholder="Enter your current savings"
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="financialGoal">Financial Goal ($)</label>
+        <label htmlFor="financialGoal">Financial Goal</label>
+        <Target size={18} />
         <input
           type="number"
           id="financialGoal"
@@ -81,6 +89,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           required
           min="0"
           step="0.01"
+          placeholder="Enter your financial goal"
         />
       </div>
 
