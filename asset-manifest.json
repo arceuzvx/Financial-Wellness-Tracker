@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Financial-Wellness-Tracker/static/css/main.ac0684b6.css",
+    "main.js": "/Financial-Wellness-Tracker/static/js/main.f6aac99b.js",
+    "index.html": "/Financial-Wellness-Tracker/index.html",
+    "main.ac0684b6.css.map": "/Financial-Wellness-Tracker/static/css/main.ac0684b6.css.map",
+    "main.f6aac99b.js.map": "/Financial-Wellness-Tracker/static/js/main.f6aac99b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ac0684b6.css",
+    "static/js/main.f6aac99b.js"
+  ]
+}
