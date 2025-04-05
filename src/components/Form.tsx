@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import { FinancialData } from '../types';
-import { 
-  DollarSign, 
-  CreditCard, 
-  Briefcase, 
-  Target, 
-  Home, 
-  Coffee, 
-  Monitor, 
-  Truck, 
-  Heart,
-  Star,
-  ChevronDown,
-  ChevronUp
-} from 'react-feather';
+import { SafeIcon } from '../utils/iconHelper';
 
 interface FormProps {
   onSubmit: (data: FinancialData) => void;
@@ -169,7 +156,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="monthlyIncome">Monthly Income</label>
-            <Briefcase size={18} />
+            <SafeIcon.Briefcase size={18} />
             <input
               type="number"
               id="monthlyIncome"
@@ -185,7 +172,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="monthlyExpenses">Monthly Expenses</label>
-            <CreditCard size={18} />
+            <SafeIcon.CreditCard size={18} />
             <input
               type="number"
               id="monthlyExpenses"
@@ -201,7 +188,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="calculatedSavings">Calculated Monthly Savings</label>
-            <DollarSign size={18} />
+            <SafeIcon.DollarSign size={18} />
             <input
               type="number"
               id="calculatedSavings"
@@ -216,7 +203,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="financialGoal">Financial Goal</label>
-            <Target size={18} />
+            <SafeIcon.Target size={18} />
             <input
               type="number"
               id="financialGoal"
@@ -246,7 +233,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="occupation">Occupation / Industry</label>
-            <Briefcase size={18} />
+            <SafeIcon.Briefcase size={18} />
             <input
               type="text"
               id="occupation"
@@ -260,7 +247,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="housingType">Housing Situation</label>
-            <Home size={18} />
+            <SafeIcon.Home size={18} />
             <select
               id="housingType"
               name="housingType"
@@ -279,7 +266,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="commutingMethod">Primary Commuting Method</label>
-            <Truck size={18} />
+            <SafeIcon.Truck size={18} />
             <select
               id="commutingMethod"
               name="commutingMethod"
@@ -300,7 +287,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="diningOutFrequency">How often do you dine out?</label>
-            <Coffee size={18} />
+            <SafeIcon.Coffee size={18} />
             <select
               id="diningOutFrequency"
               name="diningOutFrequency"
@@ -338,7 +325,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsExpenseDropdownOpen(!isExpenseDropdownOpen)} className="dropdown-label">
               Top Expense Categories
-              {isExpenseDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {isExpenseDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
             </label>
             
             {isExpenseDropdownOpen && (
@@ -446,7 +433,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsHobbyDropdownOpen(!isHobbyDropdownOpen)} className="dropdown-label">
               Hobbies & Interests
-              {isHobbyDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {isHobbyDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
             </label>
             
             {isHobbyDropdownOpen && (
@@ -503,7 +490,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsPriorityDropdownOpen(!isPriorityDropdownOpen)} className="dropdown-label">
               Financial Priorities
-              {isPriorityDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {isPriorityDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
             </label>
             
             {isPriorityDropdownOpen && (

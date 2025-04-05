@@ -669,6 +669,13 @@ button[type="submit"]:hover::before {
   font-size: 0.9rem;
 }
 
+/* Footer icon styling */
+.footer-icon {
+  margin-right: 0.3rem;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
 /* Responsive adjustments for download modal */
 @media (max-width: 480px) {
   .filename-input {
@@ -1299,6 +1306,18 @@ button[type="submit"]:hover::before {
 /* Ensure suggestions appear prominently */
 .personalized-container {
   margin-top: 2rem;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .personalized-container h3 {
@@ -1327,4 +1346,61 @@ button[type="submit"]:hover::before {
 .suggestion-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--marble-glow);
+}
+
+/* Loading spinner */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--bg-secondary);
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Icon fallback styling */
+.icon-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  margin-right: 0.3em;
+  vertical-align: middle;
+}
+
+/* Ensure the tab changes work properly */
+.plan-overview,
+.daily-plan-container,
+.personalized-container {
+  animation: fadeInContent 0.4s ease-out;
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Style the theme icon */
+.theme-icon {
+  font-size: 1.2rem;
+  display: block;
 } 

@@ -6,15 +6,25 @@ import { Footer } from './components/Footer';
 import { generateFinancialPlan } from './utils/financialCalculations';
 import { FinancialData, FinancialPlan as FinancialPlanType } from './types';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { DollarSign, TrendingUp } from 'react-feather';
+import { SafeIcon } from './utils/iconHelper';
 import './styles/marble-theme.css';
 
 function App() {
   const [plan, setPlan] = useState<FinancialPlanType | null>(null);
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleSubmit = (data: FinancialData) => {
-    const generatedPlan = generateFinancialPlan(data);
-    setPlan(generatedPlan);
+    setShowLoading(true);
+    
+    // Simulate a brief loading period to give feedback to the user
+    setTimeout(() => {
+      const generatedPlan = generateFinancialPlan(data);
+      setPlan(generatedPlan);
+      setShowLoading(false);
+      
+      // Scroll to top when plan is generated
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 500);
   };
 
   return (
@@ -23,7 +33,7 @@ function App() {
         <header>
           <div className="header-content">
             <h1>
-              <DollarSign size={24} />
+              <SafeIcon.DollarSign size={24} />
               Financial Wellness Buddy
             </h1>
             <ThemeToggle />
@@ -34,10 +44,17 @@ function App() {
           {!plan ? (
             <>
               <p className="intro">
-                <TrendingUp size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                <SafeIcon.TrendingUp size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
                 Enter your financial information below to receive a personalized 30-day improvement plan.
               </p>
-              <Form onSubmit={handleSubmit} />
+              {showLoading ? (
+                <div className="loading-container">
+                  <div className="loading-spinner"></div>
+                  <p>Generating your personalized financial plan...</p>
+                </div>
+              ) : (
+                <Form onSubmit={handleSubmit} />
+              )}
             </>
           ) : (
             <FinancialPlan plan={plan} />

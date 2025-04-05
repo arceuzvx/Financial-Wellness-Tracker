@@ -1,19 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
-import { 
-  TrendingUp, 
-  DollarSign, 
-  Calendar, 
-  Target, 
-  Zap, 
-  Award,
-  Activity,
-  Download,
-  Edit,
-  ArrowRight,
-  Check,
-  AlertTriangle
-} from 'react-feather';
+import { SafeIcon } from '../utils/iconHelper';
 
 interface Props {
   plan: FinancialPlanType;
@@ -84,13 +71,13 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
   const getDifficultyIcon = () => {
     switch (suggestion.implementationDifficulty) {
       case 'easy':
-        return <Check className="suggestion-icon easy" />;
+        return <SafeIcon.Check className="suggestion-icon easy" />;
       case 'medium':
-        return <AlertTriangle className="suggestion-icon medium" />;
+        return <SafeIcon.AlertTriangle className="suggestion-icon medium" />;
       case 'hard':
-        return <Target className="suggestion-icon hard" />;
+        return <SafeIcon.Target className="suggestion-icon hard" />;
       default:
-        return <Check className="suggestion-icon" />;
+        return <SafeIcon.Check className="suggestion-icon" />;
     }
   };
 
@@ -98,13 +85,13 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
   const getTimeframeIcon = () => {
     switch (suggestion.timeFrame) {
       case 'immediate':
-        return <DollarSign className="suggestion-icon" />;
+        return <SafeIcon.DollarSign className="suggestion-icon" />;
       case 'short-term':
-        return <Calendar className="suggestion-icon" />;
+        return <SafeIcon.Calendar className="suggestion-icon" />;
       case 'long-term':
-        return <TrendingUp className="suggestion-icon" />;
+        return <SafeIcon.TrendingUp className="suggestion-icon" />;
       default:
-        return <Calendar className="suggestion-icon" />;
+        return <SafeIcon.Calendar className="suggestion-icon" />;
     }
   };
 
@@ -117,7 +104,7 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
       <p className="suggestion-description">{suggestion.description}</p>
       <div className="suggestion-metrics">
         <div className="metric">
-          <Award className="suggestion-icon" />
+          <SafeIcon.Award className="suggestion-icon" />
           <span>Potential savings: ${Math.round(suggestion.potentialSavings)}</span>
         </div>
         <div className="metric">
@@ -141,12 +128,17 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'daily-plan' | 'personalized'>('personalized');
   
+  // Force re-render of components when plan changes
+  useEffect(() => {
+    setActiveTab('personalized');
+  }, [plan]);
+  
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'Growing': return <TrendingUp size={20} />;
-      case 'Stuck': return <Zap size={20} />;
-      case 'Critical': return <Award size={20} />;
-      default: return <Activity size={20} />;
+      case 'Growing': return <SafeIcon.TrendingUp size={20} />;
+      case 'Stuck': return <SafeIcon.Zap size={20} />;
+      case 'Critical': return <SafeIcon.Award size={20} />;
+      default: return <SafeIcon.Activity size={20} />;
     }
   };
 
@@ -200,7 +192,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
 
   return (
     <div className="financial-plan">
-      <h2>Your 30-Day Financial Improvement Plan</h2>
+      <h2>Your Personalized Financial Improvement Plan</h2>
       
       <div className="plan-section category-section">
         <ProgressMeter percentage={savingsRatePercentage} />
@@ -248,18 +240,18 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       {activeTab === 'overview' && (
         <div className="plan-overview">
           <div className="plan-section">
-            <h3><DollarSign size={20} /> Monthly Targets</h3>
+            <h3><SafeIcon.DollarSign size={20} /> Monthly Targets</h3>
             <p>Additional Savings Target: ${plan.savingsTarget.toFixed(2)}</p>
             <p>Expense Reduction Target: ${plan.expenseReductionTarget.toFixed(2)}</p>
             <p>Projected Total Savings: ${plan.projectedSavings.toFixed(2)}</p>
           </div>
 
           <div className="plan-section">
-            <h3><Target size={20} /> Key Financial Tips</h3>
+            <h3><SafeIcon.Target size={20} /> Key Financial Tips</h3>
             <ul className="key-tips">
               {plan.dailyTips.map((tip, index) => (
                 <li key={index}>
-                  <DollarSign size={18} className="tip-icon" />
+                  <SafeIcon.DollarSign size={18} className="tip-icon" />
                   <span className="tip-text">{tip}</span>
                 </li>
               ))}
@@ -271,7 +263,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       {activeTab === 'daily-plan' && (
         <div className="daily-plan-container">
           <div className="plan-section daily-plan-section">
-            <h3><Calendar size={20} /> Your 30-Day Action Plan</h3>
+            <h3><SafeIcon.Calendar size={20} /> Your 30-Day Action Plan</h3>
             <div className="week-selector">
               {[1, 2, 3, 4, 5].map((week) => (
                 <button
@@ -288,9 +280,9 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                 <div key={action.day} className={`daily-task ${action.category}`}>
                   <div className="day-number">Day {action.day}</div>
                   <div className="task-emoji">
-                    {action.category === 'awareness' && <Activity size={20} />}
-                    {action.category === 'habit' && <Award size={20} />}
-                    {action.category === 'action' && <Zap size={20} />}
+                    {action.category === 'awareness' && <SafeIcon.Activity size={20} />}
+                    {action.category === 'habit' && <SafeIcon.Award size={20} />}
+                    {action.category === 'action' && <SafeIcon.Zap size={20} />}
                   </div>
                   <div className="task-text">{action.task}</div>
                   <div className="task-category">{action.category}</div>
@@ -312,7 +304,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
           className="download-button"
           onClick={() => setShowDownloadModal(true)}
         >
-          <Download size={18} /> Download Financial Plan
+          <SafeIcon.Download size={18} /> Download Financial Plan
         </button>
       </div>
 
@@ -330,7 +322,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                   onChange={(e) => setFileName(e.target.value)}
                   placeholder="Enter file name"
                 />
-                <Edit size={16} className="edit-icon" />
+                <SafeIcon.Edit size={16} className="edit-icon" />
               </div>
               <span className="file-extension">.csv</span>
             </div>
@@ -339,7 +331,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                 Cancel
               </button>
               <button className="download-confirm-button" onClick={handleDownload}>
-                <Download size={16} /> Download
+                <SafeIcon.Download size={16} /> Download
               </button>
             </div>
           </div>

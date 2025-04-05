@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { Sun, Moon, Monitor } from 'react-feather';
+import { SafeIcon } from '../utils/iconHelper';
 
 export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -17,9 +17,9 @@ export const ThemeToggle: React.FC = () => {
       className="theme-toggle-button"
       aria-label="Toggle theme"
     >
-      {theme === 'light' && <Sun size={20} />}
-      {theme === 'dark' && <Moon size={20} />}
-      {theme === 'system' && <Monitor size={20} />}
+      {theme === 'light' && <span className="theme-icon">☀️</span>}
+      {theme === 'dark' && <span className="theme-icon">🌙</span>}
+      {theme === 'system' && <span className="theme-icon">🖥️</span>}
     </button>
   );
 };
