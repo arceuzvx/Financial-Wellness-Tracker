@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FinancialPlan as FinancialPlanType } from '../types';
+import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
 import { 
   TrendingUp, 
   DollarSign, 
@@ -9,7 +9,10 @@ import {
   Award,
   Activity,
   Download,
-  Edit
+  Edit,
+  ArrowRight,
+  Check,
+  AlertTriangle
 } from 'react-feather';
 
 interface Props {
@@ -61,12 +64,82 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
   );
 };
 
+// Helper component for daily actions
+const DailyActionCard: React.FC<{ action: DailyAction }> = ({ action }) => {
+  return (
+    <div className="daily-action-card">
+      <div className="action-day">Day {action.day}</div>
+      <div className="action-emoji">{action.emoji}</div>
+      <div className="action-task">{action.task}</div>
+      <div className={`action-category ${action.category}`}>
+        {action.category.charAt(0).toUpperCase() + action.category.slice(1)}
+      </div>
+    </div>
+  );
+};
+
+// Helper component for personalized suggestions
+const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ suggestion }) => {
+  // Helper function to determine the difficulty icon and color
+  const getDifficultyIcon = () => {
+    switch (suggestion.implementationDifficulty) {
+      case 'easy':
+        return <Check className="suggestion-icon easy" />;
+      case 'medium':
+        return <AlertTriangle className="suggestion-icon medium" />;
+      case 'hard':
+        return <Target className="suggestion-icon hard" />;
+      default:
+        return <Check className="suggestion-icon" />;
+    }
+  };
+
+  // Helper function to determine timeframe icon
+  const getTimeframeIcon = () => {
+    switch (suggestion.timeFrame) {
+      case 'immediate':
+        return <DollarSign className="suggestion-icon" />;
+      case 'short-term':
+        return <Calendar className="suggestion-icon" />;
+      case 'long-term':
+        return <TrendingUp className="suggestion-icon" />;
+      default:
+        return <Calendar className="suggestion-icon" />;
+    }
+  };
+
+  return (
+    <div className="suggestion-card">
+      <div className="suggestion-header">
+        <h3>{suggestion.title}</h3>
+        <div className="category-badge">{suggestion.category}</div>
+      </div>
+      <p className="suggestion-description">{suggestion.description}</p>
+      <div className="suggestion-metrics">
+        <div className="metric">
+          <Award className="suggestion-icon" />
+          <span>Potential savings: ${Math.round(suggestion.potentialSavings)}</span>
+        </div>
+        <div className="metric">
+          {getDifficultyIcon()}
+          <span>Difficulty: {suggestion.implementationDifficulty}</span>
+        </div>
+        <div className="metric">
+          {getTimeframeIcon()}
+          <span>Timeframe: {suggestion.timeFrame}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const [currentWeek, setCurrentWeek] = useState(1);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [fileName, setFileName] = useState('my-financial-plan');
   const savingsRatePercentage = plan.savingsRate * 100;
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
+  const [activeTab, setActiveTab] = React.useState<'overview' | 'daily-plan' | 'personalized'>('overview');
   
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -229,6 +302,80 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       
       {/* Hidden download link */}
       <a ref={downloadLinkRef} style={{ display: 'none' }}></a>
+
+      <div className="plan-tabs">
+        <button 
+          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          Overview
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'daily-plan' ? 'active' : ''}`}
+          onClick={() => setActiveTab('daily-plan')}
+        >
+          30-Day Plan
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'personalized' ? 'active' : ''}`}
+          onClick={() => setActiveTab('personalized')}
+        >
+          Personalized Suggestions
+        </button>
+      </div>
+
+      {activeTab === 'overview' && (
+        <div className="plan-overview">
+          <div className="metrics-container">
+            <div className="metric-card">
+              <h3>Savings Rate</h3>
+              <p className="metric-value">{(plan.savingsRate * 100).toFixed(1)}%</p>
+            </div>
+            <div className="metric-card">
+              <h3>Potential Monthly Savings</h3>
+              <p className="metric-value">${plan.savingsTarget.toFixed(2)}</p>
+            </div>
+            <div className="metric-card">
+              <h3>Expense Reduction Target</h3>
+              <p className="metric-value">${plan.expenseReductionTarget.toFixed(2)}</p>
+            </div>
+          </div>
+
+          <div className="tips-container">
+            <h3>Financial Tips</h3>
+            <ul className="tips-list">
+              {plan.dailyTips.map((tip, index) => (
+                <li key={index} className="tip-item">
+                  <ArrowRight size={16} className="tip-icon" />
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'daily-plan' && (
+        <div className="daily-plan-container">
+          <h3>Your 30-Day Action Plan</h3>
+          <div className="actions-grid">
+            {plan.thirtyDayPlan.map(action => (
+              <DailyActionCard key={action.day} action={action} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'personalized' && (
+        <div className="personalized-container">
+          <h3>Personalized Savings Suggestions</h3>
+          <div className="suggestions-list">
+            {plan.personalizedSuggestions.map((suggestion, index) => (
+              <SuggestionCard key={index} suggestion={suggestion} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
