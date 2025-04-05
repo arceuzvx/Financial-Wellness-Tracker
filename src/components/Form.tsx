@@ -42,10 +42,14 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const [customExpense, setCustomExpense] = useState("");
   const [customHobby, setCustomHobby] = useState("");
   const [customSubscription, setCustomSubscription] = useState("");
+  const [calculatedSavings, setCalculatedSavings] = useState(0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit({
+      ...formData,
+      monthlySavings: calculatedSavings
+    });
   };
 
   const handleNextStep = () => {
@@ -64,6 +68,25 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleIncomeExpenseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const numValue = parseFloat(value) || 0;
+    
+    setFormData(prev => {
+      const updatedData = {
+        ...prev,
+        [name]: numValue
+      };
+      
+      const newIncome = name === 'monthlyIncome' ? numValue : prev.monthlyIncome;
+      const newExpenses = name === 'monthlyExpenses' ? numValue : prev.monthlyExpenses;
+      const newSavings = Math.max(0, newIncome - newExpenses);
+      setCalculatedSavings(newSavings);
+      
+      return updatedData;
+    });
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +175,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               id="monthlyIncome"
               name="monthlyIncome"
               value={formData.monthlyIncome || ''}
-              onChange={handleNumberChange}
+              onChange={handleIncomeExpenseChange}
               required
               min="0"
               step="0.01"
@@ -168,7 +191,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               id="monthlyExpenses"
               name="monthlyExpenses"
               value={formData.monthlyExpenses || ''}
-              onChange={handleNumberChange}
+              onChange={handleIncomeExpenseChange}
               required
               min="0"
               step="0.01"
@@ -177,19 +200,18 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="monthlySavings">Current Monthly Savings</label>
+            <label htmlFor="calculatedSavings">Calculated Monthly Savings</label>
             <DollarSign size={18} />
             <input
               type="number"
-              id="monthlySavings"
-              name="monthlySavings"
-              value={formData.monthlySavings || ''}
-              onChange={handleNumberChange}
-              required
-              min="0"
-              step="0.01"
-              placeholder="Enter your current savings"
+              id="calculatedSavings"
+              name="calculatedSavings"
+              value={calculatedSavings}
+              readOnly
+              className="calculated-field"
+              placeholder="Your calculated monthly savings"
             />
+            <small className="info-text">Based on your income minus expenses</small>
           </div>
 
           <div className="form-group">
@@ -206,6 +228,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               step="0.01"
               placeholder="Enter your financial goal"
             />
+            <small className="info-text">How much money you want to save in total</small>
           </div>
 
           <button type="button" className="next-button" onClick={handleNextStep}>

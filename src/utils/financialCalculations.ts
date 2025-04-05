@@ -266,7 +266,7 @@ const generateDailyActions = (data: FinancialData, category: 'Growing' | 'Stuck'
   ];
 };
 
-const generatePersonalizedSuggestions = (data: FinancialData): PersonalizedSuggestion[] => {
+const generatePersonalizedSuggestions = (data: FinancialData, expenseReductionTarget: number): PersonalizedSuggestion[] => {
   const suggestions: PersonalizedSuggestion[] = [];
   
   // Housing suggestions
@@ -404,6 +404,21 @@ const generatePersonalizedSuggestions = (data: FinancialData): PersonalizedSugge
     }
   }
 
+  // Goal-oriented suggestion
+  if (data.financialGoal > 0) {
+    const monthsToGoal = data.financialGoal / expenseReductionTarget;
+    const timeFrameDescription = monthsToGoal <= 6 ? 'immediate' : monthsToGoal <= 12 ? 'short-term' : 'long-term';
+    
+    suggestions.push({
+      category: 'other',
+      title: 'Accelerate toward your financial goal',
+      description: `To reach your goal of $${data.financialGoal.toFixed(0)}, focus on reducing expenses by $${expenseReductionTarget.toFixed(0)} monthly. This approach will help you achieve your goal in approximately ${Math.ceil(monthsToGoal)} months.`,
+      potentialSavings: expenseReductionTarget * 12,
+      implementationDifficulty: 'medium',
+      timeFrame: timeFrameDescription as 'immediate' | 'short-term' | 'long-term'
+    });
+  }
+
   // Generic suggestions everyone can use
   suggestions.push({
     category: 'other',
@@ -419,54 +434,89 @@ const generatePersonalizedSuggestions = (data: FinancialData): PersonalizedSugge
 };
 
 export const generateFinancialPlan = (data: FinancialData): FinancialPlan => {
-  const savingsRate = data.monthlyIncome > 0 ? data.monthlySavings / data.monthlyIncome : 0;
+  // Calculate savings from income and expenses
+  const calculatedSavings = Math.max(0, data.monthlyIncome - data.monthlyExpenses);
+  
+  // Use the greater of user-provided savings or calculated savings
+  const actualSavings = Math.max(calculatedSavings, data.monthlySavings);
+  
+  // Update the data object with the calculated savings
+  const updatedData: FinancialData = {
+    ...data,
+    monthlySavings: actualSavings
+  };
+  
+  // Calculate savings rate based on income
+  const savingsRate = updatedData.monthlyIncome > 0 ? actualSavings / updatedData.monthlyIncome : 0;
   const { category, message } = getCategoryInfo(savingsRate);
   
-  const disposableIncome = data.monthlyIncome - data.monthlyExpenses - data.monthlySavings;
-  const potentialSavings = Math.max(disposableIncome * 0.5, 0);
-  const expenseReduction = Math.min(data.monthlyExpenses * 0.1, disposableIncome * 0.3);
-
+  // Calculate potential improvement based on financial goal and current situation
+  const monthlyGoalContribution = updatedData.financialGoal > 0 ? updatedData.financialGoal / 12 : 0;
+  const savingsGap = Math.max(0, monthlyGoalContribution - actualSavings);
+  
+  // Define expense reduction target based on either goal or standard percentage
+  let expenseReductionTarget = 0;
+  
+  if (savingsGap > 0) {
+    // If we have a goal and there's a gap, try to reduce expenses to meet the goal
+    expenseReductionTarget = Math.min(savingsGap, updatedData.monthlyExpenses * 0.2);
+  } else {
+    // Otherwise use standard expense reduction based on current spending
+    expenseReductionTarget = updatedData.monthlyExpenses * 0.1;
+  }
+  
+  // Potential additional savings by increasing income or further reducing expenses
+  const potentialAdditionalSavings = expenseReductionTarget;
+  
   // Generate personalized tips based on user data
   const personalizedTips = [];
   
-  // Dining habits tips
-  if (data.diningOutFrequency === 'often' || data.diningOutFrequency === 'very often') {
+  // Add goal-oriented tip if financial goal exists
+  if (updatedData.financialGoal > 0) {
+    const monthsToGoal = Math.ceil(updatedData.financialGoal / (actualSavings + expenseReductionTarget));
     personalizedTips.push(
-      `Try reducing dining out from ${data.diningOutFrequency} to just 1-2 times per week to save approximately $${Math.round(data.monthlyExpenses * 0.08)}`
+      `To reach your goal of $${updatedData.financialGoal.toFixed(0)}, aim to save $${(actualSavings + expenseReductionTarget).toFixed(0)} monthly for approximately ${monthsToGoal} months`
+    );
+  }
+  
+  // Dining habits tips
+  if (updatedData.diningOutFrequency === 'often' || updatedData.diningOutFrequency === 'very often') {
+    personalizedTips.push(
+      `Try reducing dining out from ${updatedData.diningOutFrequency} to just 1-2 times per week to save approximately $${Math.round(updatedData.monthlyExpenses * 0.08)}`
     );
   }
   
   // Housing situation tips
-  if (data.housingType === 'rent') {
+  if (updatedData.housingType === 'rent') {
     personalizedTips.push('Consider negotiating your rent at renewal or exploring roommate options');
-  } else if (data.housingType === 'own') {
+  } else if (updatedData.housingType === 'own') {
     personalizedTips.push('Look into refinancing your mortgage if rates have dropped since you purchased');
   }
   
   // Commuting tips
-  if (data.commutingMethod === 'car') {
+  if (updatedData.commutingMethod === 'car') {
     personalizedTips.push('Track your car expenses and look for carpooling opportunities to reduce costs');
   }
   
   // Subscription tips
-  if (data.subscriptionServices.length > 0) {
-    personalizedTips.push(`Review your ${data.subscriptionServices.length} subscription services and consider rotating them instead of keeping all active at once`);
+  if (updatedData.subscriptionServices.length > 0) {
+    personalizedTips.push(`Review your ${updatedData.subscriptionServices.length} subscription services and consider rotating them instead of keeping all active at once`);
   }
   
   // Occupation-based tips
-  if (data.occupation) {
-    personalizedTips.push(`Explore freelance opportunities in ${data.occupation} for additional income`);
+  if (updatedData.occupation) {
+    personalizedTips.push(`Explore freelance opportunities in ${updatedData.occupation} for additional income`);
   }
   
   // Hobby-based tips
-  if (data.hobbies.includes('Shopping')) {
+  if (updatedData.hobbies.includes('Shopping')) {
     personalizedTips.push('Try the 24-hour rule before making non-essential purchases to reduce impulse buying');
   }
   
   // Common financial tips that apply to everyone
   const commonTips = [
-    `Try to save an additional $${potentialSavings.toFixed(2)} per month`,
-    `Look for ways to reduce expenses by $${expenseReduction.toFixed(2)}`
+    `Reduce monthly expenses by $${expenseReductionTarget.toFixed(2)} to accelerate your savings`,
+    `Automate your savings through direct deposit or scheduled transfers to build consistency`
   ];
 
   // Category-specific financial tips
@@ -497,13 +547,13 @@ export const generateFinancialPlan = (data: FinancialData): FinancialPlan => {
 
   return {
     dailyTips: combinedTips,
-    savingsTarget: potentialSavings,
-    expenseReductionTarget: expenseReduction,
-    projectedSavings: data.monthlySavings + potentialSavings,
+    savingsTarget: potentialAdditionalSavings,
+    expenseReductionTarget: expenseReductionTarget,
+    projectedSavings: actualSavings + potentialAdditionalSavings,
     savingsRate: savingsRate,
     category: category,
     categoryMessage: message,
-    thirtyDayPlan: generateDailyActions(data, category),
-    personalizedSuggestions: generatePersonalizedSuggestions(data)
+    thirtyDayPlan: generateDailyActions(updatedData, category),
+    personalizedSuggestions: generatePersonalizedSuggestions(updatedData, expenseReductionTarget)
   };
 }; 

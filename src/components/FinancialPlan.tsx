@@ -139,7 +139,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const [fileName, setFileName] = useState('my-financial-plan');
   const savingsRatePercentage = plan.savingsRate * 100;
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
-  const [activeTab, setActiveTab] = React.useState<'overview' | 'daily-plan' | 'personalized'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'daily-plan' | 'personalized'>('personalized');
   
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -212,54 +212,100 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
         </p>
         <p className="category-message">{plan.categoryMessage}</p>
       </div>
+
+      <div className="plan-tabs">
+        <button 
+          className={`tab-button ${activeTab === 'personalized' ? 'active' : ''}`}
+          onClick={() => setActiveTab('personalized')}
+        >
+          Personalized Suggestions
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          Overview
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'daily-plan' ? 'active' : ''}`}
+          onClick={() => setActiveTab('daily-plan')}
+        >
+          30-Day Plan
+        </button>
+      </div>
+
+      {activeTab === 'personalized' && (
+        <div className="personalized-container plan-section">
+          <h3>Personalized Savings Suggestions</h3>
+          <div className="suggestions-list">
+            {plan.personalizedSuggestions.map((suggestion, index) => (
+              <SuggestionCard key={index} suggestion={suggestion} />
+            ))}
+          </div>
+        </div>
+      )}
       
-      <div className="plan-section">
-        <h3><DollarSign size={20} /> Monthly Targets</h3>
-        <p>Additional Savings Target: ${plan.savingsTarget.toFixed(2)}</p>
-        <p>Expense Reduction Target: ${plan.expenseReductionTarget.toFixed(2)}</p>
-        <p>Projected Total Savings: ${plan.projectedSavings.toFixed(2)}</p>
-      </div>
+      {activeTab === 'overview' && (
+        <div className="plan-overview">
+          <div className="plan-section">
+            <h3><DollarSign size={20} /> Monthly Targets</h3>
+            <p>Additional Savings Target: ${plan.savingsTarget.toFixed(2)}</p>
+            <p>Expense Reduction Target: ${plan.expenseReductionTarget.toFixed(2)}</p>
+            <p>Projected Total Savings: ${plan.projectedSavings.toFixed(2)}</p>
+          </div>
 
-      <div className="plan-section daily-plan-section">
-        <h3><Calendar size={20} /> Your 30-Day Action Plan</h3>
-        <div className="week-selector">
-          {[1, 2, 3, 4, 5].map((week) => (
-            <button
-              key={week}
-              className={`week-button ${currentWeek === week ? 'active' : ''}`}
-              onClick={() => setCurrentWeek(week)}
-            >
-              Week {week}
-            </button>
-          ))}
+          <div className="plan-section">
+            <h3><Target size={20} /> Key Financial Tips</h3>
+            <ul className="key-tips">
+              {plan.dailyTips.map((tip, index) => (
+                <li key={index}>
+                  <DollarSign size={18} className="tip-icon" />
+                  <span className="tip-text">{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="daily-tasks">
-          {weeks[currentWeek - 1].map((action) => (
-            <div key={action.day} className={`daily-task ${action.category}`}>
-              <div className="day-number">Day {action.day}</div>
-              <div className="task-emoji">
-                {action.category === 'awareness' && <Activity size={20} />}
-                {action.category === 'habit' && <Award size={20} />}
-                {action.category === 'action' && <Zap size={20} />}
-              </div>
-              <div className="task-text">{action.task}</div>
-              <div className="task-category">{action.category}</div>
+      )}
+
+      {activeTab === 'daily-plan' && (
+        <div className="daily-plan-container">
+          <div className="plan-section daily-plan-section">
+            <h3><Calendar size={20} /> Your 30-Day Action Plan</h3>
+            <div className="week-selector">
+              {[1, 2, 3, 4, 5].map((week) => (
+                <button
+                  key={week}
+                  className={`week-button ${currentWeek === week ? 'active' : ''}`}
+                  onClick={() => setCurrentWeek(week)}
+                >
+                  Week {week}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="daily-tasks">
+              {weeks[currentWeek - 1].map((action) => (
+                <div key={action.day} className={`daily-task ${action.category}`}>
+                  <div className="day-number">Day {action.day}</div>
+                  <div className="task-emoji">
+                    {action.category === 'awareness' && <Activity size={20} />}
+                    {action.category === 'habit' && <Award size={20} />}
+                    {action.category === 'action' && <Zap size={20} />}
+                  </div>
+                  <div className="task-text">{action.task}</div>
+                  <div className="task-category">{action.category}</div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-      <div className="plan-section">
-        <h3><Target size={20} /> Key Financial Tips</h3>
-        <ul className="key-tips">
-          {plan.dailyTips.map((tip, index) => (
-            <li key={index}>
-              <DollarSign size={18} className="tip-icon" />
-              <span className="tip-text">{tip}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <div className="actions-grid">
+            {plan.thirtyDayPlan.map(action => (
+              <DailyActionCard key={action.day} action={action} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="download-section">
         <button 
@@ -302,80 +348,6 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       
       {/* Hidden download link */}
       <a ref={downloadLinkRef} style={{ display: 'none' }}></a>
-
-      <div className="plan-tabs">
-        <button 
-          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          Overview
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'daily-plan' ? 'active' : ''}`}
-          onClick={() => setActiveTab('daily-plan')}
-        >
-          30-Day Plan
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'personalized' ? 'active' : ''}`}
-          onClick={() => setActiveTab('personalized')}
-        >
-          Personalized Suggestions
-        </button>
-      </div>
-
-      {activeTab === 'overview' && (
-        <div className="plan-overview">
-          <div className="metrics-container">
-            <div className="metric-card">
-              <h3>Savings Rate</h3>
-              <p className="metric-value">{(plan.savingsRate * 100).toFixed(1)}%</p>
-            </div>
-            <div className="metric-card">
-              <h3>Potential Monthly Savings</h3>
-              <p className="metric-value">${plan.savingsTarget.toFixed(2)}</p>
-            </div>
-            <div className="metric-card">
-              <h3>Expense Reduction Target</h3>
-              <p className="metric-value">${plan.expenseReductionTarget.toFixed(2)}</p>
-            </div>
-          </div>
-
-          <div className="tips-container">
-            <h3>Financial Tips</h3>
-            <ul className="tips-list">
-              {plan.dailyTips.map((tip, index) => (
-                <li key={index} className="tip-item">
-                  <ArrowRight size={16} className="tip-icon" />
-                  <span>{tip}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'daily-plan' && (
-        <div className="daily-plan-container">
-          <h3>Your 30-Day Action Plan</h3>
-          <div className="actions-grid">
-            {plan.thirtyDayPlan.map(action => (
-              <DailyActionCard key={action.day} action={action} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'personalized' && (
-        <div className="personalized-container">
-          <h3>Personalized Savings Suggestions</h3>
-          <div className="suggestions-list">
-            {plan.personalizedSuggestions.map((suggestion, index) => (
-              <SuggestionCard key={index} suggestion={suggestion} />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
