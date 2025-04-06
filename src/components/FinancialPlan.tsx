@@ -25,39 +25,25 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
           cx="100"
           cy="100"
           r={radius}
+          fill="none"
+          stroke="var(--border-color)"
+          strokeWidth="8"
         />
         <circle
           className="progress-circle-path"
           cx="100"
           cy="100"
           r={radius}
+          fill="none"
+          strokeWidth="8"
+          strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
           style={{ stroke: getProgressColor(percentage) }}
         />
-        <text
-          x="100"
-          y="85"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="36"
-          fontWeight="bold"
-          fill={getProgressColor(percentage)}
-        >
-          $
-        </text>
-        <text
-          x="100"
-          y="125"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="24"
-          fontWeight="bold"
-          fill={getProgressColor(percentage)}
-        >
-          {percentage.toFixed(1)}%
-        </text>
       </svg>
+      <div className="icon-dollar">$</div>
+      <div className="icon-percentage">{percentage.toFixed(1)}%</div>
     </div>
   );
 };
@@ -210,40 +196,115 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       messageElement.textContent = 'Preparing calendar...';
       document.body.appendChild(messageElement);
 
-      // Create a temporary canvas to draw the calendar
       try {
+        // Create a temporary canvas
         const div = calendarRef.current;
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const scale = 2;
+        const scale = window.devicePixelRatio || 2; // Use device pixel ratio for better quality on mobile
         
         // Set canvas dimensions to match the div (scaled up for better quality)
         canvas.width = div.offsetWidth * scale;
         canvas.height = div.offsetHeight * scale;
         
         if (ctx) {
-          // Set background color
+          // Set background color with a marble-like texture
           ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-primary') || '#ffffff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Add a subtle marble pattern
+          ctx.globalAlpha = 0.1;
+          for (let i = 0; i < 20; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const radius = Math.random() * 50 + 10;
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+            gradient.addColorStop(1, 'rgba(240, 240, 240, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1.0;
           
           // Scale up for better resolution
           ctx.scale(scale, scale);
           
-          // Draw basic representation (simplified version)
-          ctx.fillStyle = '#000000';
-          ctx.font = '16px Inter, sans-serif';
+          // Draw title with a solid background to make it more visible
+          ctx.fillStyle = 'rgba(108, 92, 231, 0.9)';
+          ctx.fillRect(0, 0, div.offsetWidth, 80);
+          
+          // Draw header text
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 20px Inter, sans-serif';
           ctx.fillText('Your 30-Day Financial Action Plan', 20, 30);
+          ctx.font = '16px Inter, sans-serif';
           ctx.fillText(`Week ${currentWeek} • ${plan.category} Plan`, 20, 60);
+          
+          // Draw each day's task
+          const weekDays = weeks[currentWeek - 1];
+          const startY = 100;
+          const rowHeight = 80;
+          
+          weekDays.forEach((day, index) => {
+            const y = startY + index * rowHeight;
+            
+            // Draw day background
+            ctx.fillStyle = 'rgba(248, 249, 250, 0.8)';
+            ctx.fillRect(20, y, div.offsetWidth - 40, rowHeight - 10);
+            
+            // Draw border on the left with category color
+            let borderColor = '#a8e6cf'; // Default (awareness)
+            if (day.category === 'habit') borderColor = '#ffd3b6';
+            if (day.category === 'action') borderColor = '#ffaaa5';
+            
+            ctx.fillStyle = borderColor;
+            ctx.fillRect(20, y, 8, rowHeight - 10);
+            
+            // Draw task text
+            ctx.fillStyle = '#2d3436';
+            ctx.font = 'bold 16px Inter, sans-serif';
+            ctx.fillText(`Day ${day.day}`, 40, y + 25);
+            
+            ctx.font = '14px Inter, sans-serif';
+            
+            // Handle long text by wrapping
+            const maxWidth = div.offsetWidth - 80;
+            const words = day.task.split(' ');
+            let line = '';
+            let lineY = y + 50;
+            
+            words.forEach(word => {
+              const testLine = line + word + ' ';
+              const metrics = ctx.measureText(testLine);
+              
+              if (metrics.width > maxWidth) {
+                ctx.fillText(line, 40, lineY);
+                line = word + ' ';
+                lineY += 20;
+              } else {
+                line = testLine;
+              }
+            });
+            
+            ctx.fillText(line, 40, lineY);
+            
+            // Draw category
+            ctx.fillStyle = '#636e72';
+            ctx.font = 'italic 12px Inter, sans-serif';
+            ctx.fillText(day.category, div.offsetWidth - 80, y + rowHeight - 20);
+          });
           
           // Create download link
           const dataUrl = canvas.toDataURL('image/png');
           const link = document.createElement('a');
-          link.download = `${fileName}-calendar.png`;
+          link.download = `${fileName}-calendar-week-${currentWeek}.png`;
           link.href = dataUrl;
           link.click();
           
           // Update message
-          messageElement.textContent = 'Calendar downloaded! (simplified version)';
+          messageElement.textContent = 'Calendar downloaded!';
           messageElement.classList.add('success');
         } else {
           throw new Error('Could not get canvas context');
