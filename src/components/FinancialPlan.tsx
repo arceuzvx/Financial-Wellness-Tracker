@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
-import { SafeIcon } from '../utils/iconHelper';
 
 interface Props {
   plan: FinancialPlanType;
 }
 
 const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
-  const radius = 90;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
-  
   const getProgressColor = (percentage: number) => {
     if (percentage >= 20) return 'var(--success-color)';
     if (percentage >= 10) return 'var(--warning-color)';
@@ -19,31 +14,9 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
 
   return (
     <div className="progress-meter">
-      <svg width="200" height="200" viewBox="0 0 200 200">
-        <circle
-          className="progress-circle-bg"
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          stroke="var(--border-color)"
-          strokeWidth="8"
-        />
-        <circle
-          className="progress-circle-path"
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          style={{ stroke: getProgressColor(percentage) }}
-        />
-      </svg>
-      <div className="icon-dollar">$</div>
-      <div className="icon-percentage">{percentage.toFixed(1)}%</div>
+      <div className="progress-display" style={{ color: getProgressColor(percentage) }}>
+        {percentage.toFixed(1)}%
+      </div>
     </div>
   );
 };
@@ -68,13 +41,13 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
   const getDifficultyIcon = () => {
     switch (suggestion.implementationDifficulty) {
       case 'easy':
-        return <SafeIcon.Check className="suggestion-icon easy" />;
+        return <span className="suggestion-icon easy">✅</span>;
       case 'medium':
-        return <SafeIcon.AlertTriangle className="suggestion-icon medium" />;
+        return <span className="suggestion-icon medium">⚠️</span>;
       case 'hard':
-        return <SafeIcon.Target className="suggestion-icon hard" />;
+        return <span className="suggestion-icon hard">🎯</span>;
       default:
-        return <SafeIcon.Check className="suggestion-icon" />;
+        return <span className="suggestion-icon">✅</span>;
     }
   };
 
@@ -82,13 +55,13 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
   const getTimeframeIcon = () => {
     switch (suggestion.timeFrame) {
       case 'immediate':
-        return <SafeIcon.DollarSign className="suggestion-icon" />;
+        return <span className="suggestion-icon">💰</span>;
       case 'short-term':
-        return <SafeIcon.Calendar className="suggestion-icon" />;
+        return <span className="suggestion-icon">📅</span>;
       case 'long-term':
-        return <SafeIcon.TrendingUp className="suggestion-icon" />;
+        return <span className="suggestion-icon">📈</span>;
       default:
-        return <SafeIcon.Calendar className="suggestion-icon" />;
+        return <span className="suggestion-icon">📅</span>;
     }
   };
 
@@ -101,7 +74,7 @@ const SuggestionCard: React.FC<{ suggestion: PersonalizedSuggestion }> = ({ sugg
       <p className="suggestion-description">{suggestion.description}</p>
       <div className="suggestion-metrics">
         <div className="metric">
-          <SafeIcon.Award className="suggestion-icon" />
+          <span className="suggestion-icon">🏆</span>
           <span>Potential savings: ${Math.round(suggestion.potentialSavings)}</span>
         </div>
         <div className="metric">
@@ -133,10 +106,10 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'Growing': return <SafeIcon.TrendingUp size={20} />;
-      case 'Stuck': return <SafeIcon.Zap size={20} />;
-      case 'Critical': return <SafeIcon.Award size={20} />;
-      default: return <SafeIcon.Activity size={20} />;
+      case 'Growing': return '📈';
+      case 'Stuck': return '⚡';
+      case 'Critical': return '🏆';
+      default: return '📊';
     }
   };
 
@@ -350,7 +323,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
         </div>
         <div className="financial-goal-container">
           <div className={`category-badge ${plan.category.toLowerCase()}`}>
-            {getCategoryIcon(plan.category)} {plan.category}
+            <span>{getCategoryIcon(plan.category)}</span> {plan.category}
           </div>
           <p className="savings-rate">
             Current Savings Rate: {savingsRatePercentage.toFixed(1)}%
@@ -394,18 +367,18 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       {activeTab === 'overview' && (
         <div className="plan-overview">
           <div className="plan-section">
-            <h3><SafeIcon.DollarSign size={20} /> Monthly Targets</h3>
+            <h3>💰 Monthly Targets</h3>
             <p>Additional Savings Target: ${plan.savingsTarget.toFixed(2)}</p>
             <p>Expense Reduction Target: ${plan.expenseReductionTarget.toFixed(2)}</p>
             <p>Projected Total Savings: ${plan.projectedSavings.toFixed(2)}</p>
           </div>
 
           <div className="plan-section">
-            <h3><SafeIcon.Target size={20} /> Key Financial Tips</h3>
+            <h3>🎯 Key Financial Tips</h3>
             <ul className="key-tips">
               {plan.dailyTips.map((tip, index) => (
                 <li key={index}>
-                  <SafeIcon.DollarSign size={18} className="tip-icon" />
+                  <span className="tip-icon">💰</span>
                   <span className="tip-text">{tip}</span>
                 </li>
               ))}
@@ -418,13 +391,13 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
         <div className="daily-plan-container">
           <div className="plan-section daily-plan-section">
             <div className="section-header">
-              <h3><SafeIcon.Calendar size={20} /> Your 30-Day Action Plan</h3>
+              <h3>📅 Your 30-Day Action Plan</h3>
               <button 
                 className="download-calendar-button" 
                 onClick={handleDownloadCalendar}
                 title="Download this calendar as an image"
               >
-                <SafeIcon.Download size={16} /> Save as Image
+                <span>📥</span> Save as Image
               </button>
             </div>
 
@@ -450,9 +423,9 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                   <div key={action.day} className={`daily-task ${action.category}`}>
                     <div className="day-number">Day {action.day}</div>
                     <div className="task-emoji">
-                      {action.category === 'awareness' && <SafeIcon.Activity size={20} />}
-                      {action.category === 'habit' && <SafeIcon.Award size={20} />}
-                      {action.category === 'action' && <SafeIcon.Zap size={20} />}
+                      {action.category === 'awareness' && '📊'}
+                      {action.category === 'habit' && '🏆'}
+                      {action.category === 'action' && '⚡'}
                     </div>
                     <div className="task-text">{action.task}</div>
                     <div className="task-category">{action.category}</div>
@@ -476,7 +449,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
           className="download-button"
           onClick={() => setShowDownloadModal(true)}
         >
-          <SafeIcon.Download size={18} /> Download Financial Plan
+          <span>📥</span> Download Financial Plan
         </button>
       </div>
 
@@ -494,7 +467,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                   onChange={(e) => setFileName(e.target.value)}
                   placeholder="Enter file name"
                 />
-                <SafeIcon.Edit size={16} className="edit-icon" />
+                <span className="edit-icon">✏️</span>
               </div>
               <span className="file-extension">.csv</span>
             </div>
@@ -503,7 +476,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                 Cancel
               </button>
               <button className="download-confirm-button" onClick={handleDownload}>
-                <SafeIcon.Download size={16} /> Download
+                <span>📥</span> Download
               </button>
             </div>
           </div>

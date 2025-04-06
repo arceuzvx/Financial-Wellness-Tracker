@@ -7,7 +7,7 @@ import { generateFinancialPlan } from './utils/financialCalculations';
 import { FinancialData, FinancialPlan as FinancialPlanType } from './types';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { SafeIcon } from './utils/iconHelper';
-import './styles/marble-theme.css';
+import './styles/App.css';
 
 function App() {
   const [plan, setPlan] = useState<FinancialPlanType | null>(null);
@@ -30,6 +30,15 @@ function App() {
   return (
     <ThemeProvider>
       <div className="app">
+        {/* Add cosmic dust particles for galaxy effect */}
+        <div className="galaxy-dust">
+          <div className="dust-particle"></div>
+          <div className="dust-particle"></div>
+          <div className="dust-particle"></div>
+          <div className="dust-particle"></div>
+          <div className="dust-particle"></div>
+        </div>
+        
         <header>
           <div className="header-content">
             <h1>

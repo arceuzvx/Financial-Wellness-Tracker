@@ -10,8 +10,8 @@
   --warning-color: #ffd3b6;
   --danger-color: #ffaaa5;
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --marble-light: linear-gradient(145deg, rgba(255, 255, 255, 0.7), rgba(240, 242, 245, 0.8)), url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23dcdde1' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
-  --marble-dark: linear-gradient(145deg, rgba(42, 42, 42, 0.9), rgba(28, 28, 28, 0.9)), url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23575757' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --galaxy-light: radial-gradient(ellipse at bottom, #f5f7fa 0%, #c3cfe2 100%);
+  --galaxy-dark: radial-gradient(ellipse at bottom, #1f2940 0%, #141E30 100%);
 }
 
 [data-theme='dark'] {
@@ -29,16 +29,53 @@
 
 body {
   background-color: var(--bg-primary);
-  background-image: var(--marble-light);
+  background-image: var(--galaxy-light);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   margin: 0;
   transition: background-color 0.3s, color 0.3s;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 175, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(circle at 80% 10%, rgba(135, 206, 250, 0.3) 0%, transparent 100%),
+    radial-gradient(circle at 40% 80%, rgba(175, 135, 255, 0.3) 0%, transparent 100%);
+  z-index: -1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='25' cy='35' r='0.8' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='45' cy='15' r='1.2' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='65' cy='45' r='0.7' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='85' cy='25' r='1' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='15' cy='55' r='1.1' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='35' cy='75' r='0.9' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='55' cy='60' r='1.2' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='75' cy='95' r='0.8' fill='rgba(255, 255, 255, 0.3)'/%3E%3Ccircle cx='95' cy='80' r='1' fill='rgba(255, 255, 255, 0.3)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+  animation: twinkle 5s infinite ease-in-out;
 }
 
 [data-theme='dark'] body {
-  background-image: var(--marble-dark);
+  background-image: var(--galaxy-dark);
+}
+
+[data-theme='dark'] body::before {
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(212, 108, 211, 0.15) 0%, transparent 100%),
+    radial-gradient(circle at 80% 10%, rgba(91, 177, 235, 0.15) 0%, transparent 100%),
+    radial-gradient(circle at 40% 80%, rgba(148, 115, 221, 0.15) 0%, transparent 100%);
 }
 
 .app {
@@ -118,7 +155,7 @@ h1 {
 }
 
 .financial-form {
-  background: rgba(248, 249, 250, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 2rem;
@@ -129,7 +166,7 @@ h1 {
   display: grid;
   gap: 1.5rem;
   animation: slideUp 0.5s ease-out;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 @keyframes slideUp {
@@ -218,20 +255,20 @@ button[type="submit"]:hover {
 }
 
 .plan-section {
-  background: rgba(248, 249, 250, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
   transition: transform 0.2s;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 [data-theme='dark'] .plan-section,
 [data-theme='dark'] .financial-form {
-  background: rgba(45, 45, 45, 0.9);
-  border: 1px solid rgba(70, 70, 70, 0.3);
+  background: rgba(30, 30, 40, 0.8);
+  border: 1px solid rgba(80, 80, 120, 0.3);
 }
 
 .plan-section:hover {
@@ -245,39 +282,17 @@ button[type="submit"]:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  border: 8px solid var(--border-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.icon-dollar, .icon-target {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+.progress-display {
   font-size: 36px;
   font-weight: bold;
-  color: var(--primary-color);
-}
-
-.icon-dollar {
-  margin-bottom: 40px; /* Move dollar sign up */
-}
-
-.icon-percentage {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary-color);
-  margin-top: 40px; /* Move percentage down */
+  text-align: center;
 }
 
 .category-section {
@@ -368,7 +383,7 @@ button[type="submit"]:hover {
 }
 
 .daily-task {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   padding: 1.2rem;
@@ -377,12 +392,13 @@ button[type="submit"]:hover {
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 [data-theme='dark'] .daily-task {
-  background: rgba(40, 40, 40, 0.8);
-  border: 1px solid rgba(70, 70, 70, 0.3);
+  background: rgba(30, 30, 40, 0.7);
+  border: 1px solid rgba(80, 80, 120, 0.3);
+  border-left: 4px solid;
 }
 
 .daily-task::before {
@@ -608,4 +624,102 @@ button[type="submit"]:hover {
 .download-calendar-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Star twinkling animation */
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Add this for cosmic dust animation */
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+/* Add cosmic dust particles */
+.galaxy-dust {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dust-particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: float 15s infinite ease-in-out;
+}
+
+.dust-particle:nth-child(1) {
+  width: 100px;
+  height: 100px;
+  top: 10%;
+  left: 20%;
+  animation-delay: 0s;
+  background: radial-gradient(circle, rgba(255, 182, 255, 0.5) 0%, rgba(255, 182, 255, 0) 70%);
+}
+
+.dust-particle:nth-child(2) {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 80%;
+  animation-delay: 1s;
+  animation-duration: 18s;
+  background: radial-gradient(circle, rgba(182, 225, 255, 0.5) 0%, rgba(182, 225, 255, 0) 70%);
+}
+
+.dust-particle:nth-child(3) {
+  width: 120px;
+  height: 120px;
+  top: 70%;
+  left: 30%;
+  animation-delay: 2s;
+  animation-duration: 20s;
+  background: radial-gradient(circle, rgba(182, 255, 234, 0.5) 0%, rgba(182, 255, 234, 0) 70%);
+}
+
+.dust-particle:nth-child(4) {
+  width: 180px;
+  height: 180px;
+  top: 20%;
+  left: 70%;
+  animation-delay: 3s;
+  animation-duration: 17s;
+  background: radial-gradient(circle, rgba(215, 182, 255, 0.5) 0%, rgba(215, 182, 255, 0) 70%);
+}
+
+.dust-particle:nth-child(5) {
+  width: 140px;
+  height: 140px;
+  top: 80%;
+  left: 10%;
+  animation-delay: 4s;
+  animation-duration: 19s;
+  background: radial-gradient(circle, rgba(255, 214, 182, 0.5) 0%, rgba(255, 214, 182, 0) 70%);
+}
+
+[data-theme='dark'] .dust-particle {
+  opacity: 0.15;
 }
