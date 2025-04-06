@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
 import { SafeIcon } from '../utils/iconHelper';
+import domtoimage from 'dom-to-image';
 
 interface Props {
   plan: FinancialPlanType;
@@ -126,6 +127,7 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
   const [fileName, setFileName] = useState('my-financial-plan');
   const savingsRatePercentage = plan.savingsRate * 100;
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'daily-plan' | 'personalized'>('personalized');
   
   // Force re-render of components when plan changes
@@ -188,6 +190,56 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
     }
     
     setShowDownloadModal(false);
+  };
+
+  const handleDownloadCalendar = () => {
+    if (calendarRef.current) {
+      // Show a temporary success message
+      const messageElement = document.createElement('div');
+      messageElement.className = 'calendar-download-message';
+      messageElement.textContent = 'Preparing calendar...';
+      document.body.appendChild(messageElement);
+
+      // Use dom-to-image library to convert DOM to image
+      domtoimage.toPng(calendarRef.current, {
+        quality: 1.0,
+        bgcolor: getComputedStyle(document.body).getPropertyValue('--bg-primary'),
+        style: {
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }
+      })
+      .then(function (dataUrl) {
+        const link = document.createElement('a');
+        link.download = `${fileName}-calendar.png`;
+        link.href = dataUrl;
+        link.click();
+        
+        // Update message
+        messageElement.textContent = 'Calendar downloaded!';
+        messageElement.classList.add('success');
+        
+        setTimeout(() => {
+          messageElement.classList.add('fade-out');
+          setTimeout(() => {
+            document.body.removeChild(messageElement);
+          }, 500);
+        }, 2000);
+      })
+      .catch(function (error) {
+        console.error('Error creating image:', error);
+        messageElement.textContent = 'Error creating image';
+        messageElement.classList.add('error');
+        
+        setTimeout(() => {
+          messageElement.classList.add('fade-out');
+          setTimeout(() => {
+            document.body.removeChild(messageElement);
+          }, 500);
+        }, 2000);
+      });
+    }
   };
 
   return (
@@ -263,7 +315,17 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       {activeTab === 'daily-plan' && (
         <div className="daily-plan-container">
           <div className="plan-section daily-plan-section">
-            <h3><SafeIcon.Calendar size={20} /> Your 30-Day Action Plan</h3>
+            <div className="section-header">
+              <h3><SafeIcon.Calendar size={20} /> Your 30-Day Action Plan</h3>
+              <button 
+                className="download-calendar-button" 
+                onClick={handleDownloadCalendar}
+                title="Download this calendar as an image"
+              >
+                <SafeIcon.Download size={16} /> Save as Image
+              </button>
+            </div>
+
             <div className="week-selector">
               {[1, 2, 3, 4, 5].map((week) => (
                 <button
@@ -275,22 +337,30 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
                 </button>
               ))}
             </div>
-            <div className="daily-tasks">
-              {weeks[currentWeek - 1].map((action) => (
-                <div key={action.day} className={`daily-task ${action.category}`}>
-                  <div className="day-number">Day {action.day}</div>
-                  <div className="task-emoji">
-                    {action.category === 'awareness' && <SafeIcon.Activity size={20} />}
-                    {action.category === 'habit' && <SafeIcon.Award size={20} />}
-                    {action.category === 'action' && <SafeIcon.Zap size={20} />}
+
+            <div className="daily-tasks" ref={calendarRef}>
+              <div className="calendar-header">
+                <h4>Your 30-Day Financial Action Plan</h4>
+                <p className="calendar-subtitle">Week {currentWeek} • {plan.category} Plan</p>
+              </div>
+              <div className="calendar-days">
+                {weeks[currentWeek - 1].map((action) => (
+                  <div key={action.day} className={`daily-task ${action.category}`}>
+                    <div className="day-number">Day {action.day}</div>
+                    <div className="task-emoji">
+                      {action.category === 'awareness' && <SafeIcon.Activity size={20} />}
+                      {action.category === 'habit' && <SafeIcon.Award size={20} />}
+                      {action.category === 'action' && <SafeIcon.Zap size={20} />}
+                    </div>
+                    <div className="task-text">{action.task}</div>
+                    <div className="task-category">{action.category}</div>
                   </div>
-                  <div className="task-text">{action.task}</div>
-                  <div className="task-category">{action.category}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
+          <h3 className="cards-section-title">All 30 Days at a Glance</h3>
           <div className="actions-grid">
             {plan.thirtyDayPlan.map(action => (
               <DailyActionCard key={action.day} action={action} />
@@ -339,7 +409,15 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       )}
       
       {/* Hidden download link */}
-      <a ref={downloadLinkRef} style={{ display: 'none' }}></a>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a 
+        ref={downloadLinkRef} 
+        style={{ display: 'none' }} 
+        href="#" 
+        aria-hidden="true"
+      >
+        Download
+      </a>
     </div>
   );
 };

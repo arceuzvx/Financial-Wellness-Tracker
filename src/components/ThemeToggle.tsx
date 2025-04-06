@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { SafeIcon } from '../utils/iconHelper';
 
 export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();

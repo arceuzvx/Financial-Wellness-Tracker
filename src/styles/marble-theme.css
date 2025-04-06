@@ -343,77 +343,66 @@ button[type="submit"]:hover::before {
 
 /* Daily Tasks */
 .daily-tasks {
-  display: grid;
-  gap: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .daily-task {
-  background: var(--bg-primary);
-  border-radius: 16px;
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas:
-    "day-number task-emoji task-category"
-    "day-number task-text task-category";
-  gap: 0.5rem 1rem;
-  align-items: center;
-  transition: all 0.3s;
-  border: 1px solid var(--border-color);
+  position: relative;
+  padding: 15px;
+  background-color: var(--bg-card);
+  border-left: 4px solid;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
 }
 
 .daily-task:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.daily-task.awareness {
+  border-left-color: #3498db;
+}
+
+.daily-task.habit {
+  border-left-color: #1abc9c;
+}
+
+.daily-task.action {
+  border-left-color: #e67e22;
 }
 
 .day-number {
-  grid-area: day-number;
-  background: var(--bg-secondary);
-  color: var(--primary-color);
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px;
-  text-align: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .task-emoji {
-  grid-area: task-emoji;
-  margin-right: 0.75rem;
-}
-
-.task-text {
-  grid-area: task-text;
-  color: var(--text-primary);
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.task-category {
-  grid-area: task-category;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.8rem;
-  border-radius: 100px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.daily-task.awareness .task-category {
-  background-color: rgba(93, 98, 160, 0.1);
+  margin-bottom: 10px;
   color: var(--primary-color);
 }
 
-.daily-task.habit .task-category {
-  background-color: rgba(120, 209, 156, 0.1);
-  color: var(--success-color);
+.task-text {
+  font-weight: 500;
+  margin-bottom: 8px;
+  padding-right: 40px;
 }
 
-.daily-task.action .task-category {
-  background-color: rgba(247, 201, 128, 0.1);
-  color: var(--warning-color);
+.task-category {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: var(--text-secondary);
 }
 
 /* Key Tips */
@@ -671,9 +660,10 @@ button[type="submit"]:hover::before {
 
 /* Footer icon styling */
 .footer-icon {
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
   font-size: 1.1rem;
   vertical-align: middle;
+  display: inline-flex;
 }
 
 /* Responsive adjustments for download modal */
@@ -1074,6 +1064,12 @@ button[type="submit"]:hover::before {
   position: relative;
   overflow: hidden;
   border-top: 4px solid var(--primary-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.daily-action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .daily-action-card .action-day {
@@ -1092,6 +1088,11 @@ button[type="submit"]:hover::before {
   font-size: 32px;
   margin-bottom: 12px;
   margin-top: 8px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
 }
 
 .daily-action-card .action-task {
@@ -1381,6 +1382,7 @@ button[type="submit"]:hover::before {
   font-size: 1.2em;
   margin-right: 0.3em;
   vertical-align: middle;
+  line-height: 1;
 }
 
 /* Ensure the tab changes work properly */
@@ -1402,5 +1404,105 @@ button[type="submit"]:hover::before {
 /* Style the theme icon */
 .theme-icon {
   font-size: 1.2rem;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+/* Make form icons consistent */
+.form-group svg, 
+.form-group .icon-fallback,
+.intro svg,
+.intro .icon-fallback {
+  vertical-align: middle;
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Calendar styles and download functionality */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.download-calendar-button {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.download-calendar-button:hover {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.calendar-header h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+.calendar-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: 0 0 8px 8px;
+}
+
+.cards-section-title {
+  margin: 2rem 0 1rem;
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.calendar-download-message {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.5s ease;
+}
+
+.calendar-download-message.success {
+  background-color: var(--success-color);
+}
+
+.calendar-download-message.fade-out {
+  opacity: 0;
 } 
