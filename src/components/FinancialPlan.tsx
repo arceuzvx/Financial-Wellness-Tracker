@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
 import { SafeIcon } from '../utils/iconHelper';
-import html2canvas from 'html2canvas';
 
 interface Props {
   plan: FinancialPlanType;
@@ -200,41 +199,71 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       messageElement.textContent = 'Preparing calendar...';
       document.body.appendChild(messageElement);
 
-      // Use dom-to-image library to convert DOM to image
-      html2canvas(calendarRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-primary')
-      })
-      .then(function (canvas) {
-        const link = document.createElement('a');
-        link.download = `${fileName}-calendar.png`;
-        link.href = canvas.toDataURL();
-        link.click();
+      // Create a temporary canvas to draw the calendar
+      try {
+        const div = calendarRef.current;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const scale = 2;
         
-        // Update message
-        messageElement.textContent = 'Calendar downloaded!';
-        messageElement.classList.add('success');
+        // Set canvas dimensions to match the div (scaled up for better quality)
+        canvas.width = div.offsetWidth * scale;
+        canvas.height = div.offsetHeight * scale;
         
-        setTimeout(() => {
-          messageElement.classList.add('fade-out');
-          setTimeout(() => {
-            document.body.removeChild(messageElement);
-          }, 500);
-        }, 2000);
-      })
-      .catch(function (error) {
+        if (ctx) {
+          // Set background color
+          ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-primary') || '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Scale up for better resolution
+          ctx.scale(scale, scale);
+          
+          // Draw basic representation (simplified version)
+          ctx.fillStyle = '#000000';
+          ctx.font = '16px Inter, sans-serif';
+          ctx.fillText('Your 30-Day Financial Action Plan', 20, 30);
+          ctx.fillText(`Week ${currentWeek} • ${plan.category} Plan`, 20, 60);
+          
+          // Create download link
+          const dataUrl = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.download = `${fileName}-calendar.png`;
+          link.href = dataUrl;
+          link.click();
+          
+          // Update message
+          messageElement.textContent = 'Calendar downloaded! (simplified version)';
+          messageElement.classList.add('success');
+        } else {
+          throw new Error('Could not get canvas context');
+        }
+      } catch (error) {
         console.error('Error creating image:', error);
-        messageElement.textContent = 'Error creating image';
-        messageElement.classList.add('error');
+        messageElement.textContent = 'Error creating image, using fallback text export';
+        messageElement.classList.add('warning');
         
+        // Fallback to text export
+        const weekDays = weeks[currentWeek - 1];
+        let content = `Your 30-Day Financial Action Plan - Week ${currentWeek}\n\n`;
+        weekDays.forEach(day => {
+          content += `Day ${day.day}: ${day.task} (${day.category})\n`;
+        });
+        
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `${fileName}-calendar-week-${currentWeek}.txt`;
+        link.href = url;
+        link.click();
+      }
+      
+      // Clean up message
+      setTimeout(() => {
+        messageElement.classList.add('fade-out');
         setTimeout(() => {
-          messageElement.classList.add('fade-out');
-          setTimeout(() => {
-            document.body.removeChild(messageElement);
-          }, 500);
-        }, 2000);
-      });
+          document.body.removeChild(messageElement);
+        }, 500);
+      }, 2000);
     }
   };
 
