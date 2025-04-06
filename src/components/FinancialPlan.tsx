@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FinancialPlan as FinancialPlanType, DailyAction, PersonalizedSuggestion } from '../types';
 import { SafeIcon } from '../utils/iconHelper';
-import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 
 interface Props {
   plan: FinancialPlanType;
@@ -201,19 +201,15 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       document.body.appendChild(messageElement);
 
       // Use dom-to-image library to convert DOM to image
-      domtoimage.toPng(calendarRef.current, {
-        quality: 1.0,
-        bgcolor: getComputedStyle(document.body).getPropertyValue('--bg-primary'),
-        style: {
-          padding: '20px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-        }
+      html2canvas(calendarRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-primary')
       })
-      .then(function (dataUrl) {
+      .then(function (canvas) {
         const link = document.createElement('a');
         link.download = `${fileName}-calendar.png`;
-        link.href = dataUrl;
+        link.href = canvas.toDataURL();
         link.click();
         
         // Update message
