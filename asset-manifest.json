@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Financial-Wellness-Tracker/static/css/main.70678337.css",
-    "main.js": "/Financial-Wellness-Tracker/static/js/main.10c793ca.js",
+    "main.css": "/Financial-Wellness-Tracker/static/css/main.4b8b0458.css",
+    "main.js": "/Financial-Wellness-Tracker/static/js/main.fdb60e0d.js",
     "index.html": "/Financial-Wellness-Tracker/index.html",
-    "main.70678337.css.map": "/Financial-Wellness-Tracker/static/css/main.70678337.css.map",
-    "main.10c793ca.js.map": "/Financial-Wellness-Tracker/static/js/main.10c793ca.js.map"
+    "main.4b8b0458.css.map": "/Financial-Wellness-Tracker/static/css/main.4b8b0458.css.map",
+    "main.fdb60e0d.js.map": "/Financial-Wellness-Tracker/static/js/main.fdb60e0d.js.map"
   },
   "entrypoints": [
-    "static/css/main.70678337.css",
-    "static/js/main.10c793ca.js"
+    "static/css/main.4b8b0458.css",
+    "static/js/main.fdb60e0d.js"
   ]
 }
