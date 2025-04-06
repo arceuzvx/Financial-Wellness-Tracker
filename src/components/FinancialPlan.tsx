@@ -37,7 +37,18 @@ const ProgressMeter: React.FC<{ percentage: number }> = ({ percentage }) => {
         />
         <text
           x="100"
-          y="100"
+          y="85"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="36"
+          fontWeight="bold"
+          fill={getProgressColor(percentage)}
+        >
+          $
+        </text>
+        <text
+          x="100"
+          y="125"
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="24"
@@ -56,7 +67,7 @@ const DailyActionCard: React.FC<{ action: DailyAction }> = ({ action }) => {
   return (
     <div className="daily-action-card">
       <div className="action-day">Day {action.day}</div>
-      <div className="action-emoji">{action.emoji}</div>
+      <div className="action-emoji" aria-hidden="true">{action.emoji}</div>
       <div className="action-task">{action.task}</div>
       <div className={`action-category ${action.category}`}>
         {action.category.charAt(0).toUpperCase() + action.category.slice(1)}
@@ -272,14 +283,19 @@ export const FinancialPlan: React.FC<Props> = ({ plan }) => {
       <h2>Your Personalized Financial Improvement Plan</h2>
       
       <div className="plan-section category-section">
-        <ProgressMeter percentage={savingsRatePercentage} />
-        <div className={`category-badge ${plan.category.toLowerCase()}`}>
-          {getCategoryIcon(plan.category)} {plan.category}
+        <div className="progress-meter-container">
+          <ProgressMeter percentage={savingsRatePercentage} />
+          <p className="progress-caption">Based on your income minus expenses</p>
         </div>
-        <p className="savings-rate">
-          Current Savings Rate: {savingsRatePercentage.toFixed(1)}%
-        </p>
-        <p className="category-message">{plan.categoryMessage}</p>
+        <div className="financial-goal-container">
+          <div className={`category-badge ${plan.category.toLowerCase()}`}>
+            {getCategoryIcon(plan.category)} {plan.category}
+          </div>
+          <p className="savings-rate">
+            Current Savings Rate: {savingsRatePercentage.toFixed(1)}%
+          </p>
+          <p className="category-message">{plan.categoryMessage}</p>
+        </div>
       </div>
 
       <div className="plan-tabs">
