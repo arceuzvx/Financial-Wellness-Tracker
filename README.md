@@ -1,17 +1,17 @@
 # Financial Wellness Tracker
 
-A React TypeScript application that helps users track and improve their financial wellness by providing personalized financial plans and insights. Created for the "CodeBuff Vibe Code" Hackathon using the CodeBuff CLI tool.
+A React TypeScript application that helps users track and improve their financial wellness by providing personalized financial plans and insights.
 
 ## Features
 
-- Financial data input form with modern SVG icons
+- Financial data input form with emoji icons
 - Personalized financial plan generation with dynamic visualizations
 - Monthly savings calculator with progress tracking
 - Expense tracking and reduction recommendations
 - Financial goal setting with projection charts
 - Daily financial tips categorized by impact
-- Modern marble-themed UI with light/dark mode
-- CSV download functionality with custom file naming
+- Beautiful cosmic/galaxy UI theme with light/dark mode
+- Calendar task view with download functionality
 - Responsive design optimized for all devices
 
 ## Tech Stack
@@ -19,13 +19,13 @@ A React TypeScript application that helps users track and improve their financia
 - React 
 - TypeScript
 - Context API for state management
-- Styled Components for enhanced styling
-- React Feather for SVG icons
-- Modern CSS features (backdrop-filter, custom properties)
+- Modern CSS with custom properties
+- Emoji icons for better accessibility and load times
+- Dynamic animations with CSS keyframes
 
-## Demo
+## Live Demo
 
-Visit the live demo: [Financial Wellness Tracker](https://arceuzvx.github.io/Financial-Wellness-Tracker/)
+Visit the live demo: [Financial Wellness Tracker](https://shreyyadutta.github.io/Financial-Wellness-Tracker/)
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ Visit the live demo: [Financial Wellness Tracker](https://arceuzvx.github.io/Fin
 
 1. Clone the repository
 ```bash
-git clone https://github.com/arceuzvx/Financial-Wellness-Tracker.git
+git clone https://github.com/YOUR-USERNAME/Financial-Wellness-Tracker.git
 cd Financial-Wellness-Tracker
 ```
 
@@ -52,7 +52,7 @@ npm install
 npm start
 ```
 
-The application will be available at `http://localhost:3000`
+The application will be available at `http://localhost:3000/Financial-Wellness-Tracker`
 
 ### Building for Production
 
@@ -83,14 +83,14 @@ src/
 
 ## Key Features in Detail
 
-### CSV Download
-- Export your financial plan as a CSV file
-- Customize the filename before downloading
-- Includes all plan details, tips, and financial metrics
+### Calendar Download
+- Export your financial plan as a calendar
+- View tasks organized by day
+- Color-coded by task category (awareness, habit, action)
 
-### Marble UI Theme
-- Elegant marble-inspired design with subtle gradients
-- Light and dark mode support
+### Cosmic Galaxy Theme
+- Beautiful pastel galaxy-inspired design with animated cosmic dust
+- Light and dark mode support with automatic theme detection
 - Smooth animations and transitions
 - Glass-like card effects with backdrop-filter
 
@@ -100,8 +100,8 @@ src/
 - Category-based color coding
 - Responsive layout that adapts to all screen sizes
 
-## Hackathon Details
+## Contributing
 
-This project was created for the "CodeBuff Vibe Code" Hackathon using the CodeBuff CLI tool, which helped streamline the development process and maintain consistent code quality.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
  

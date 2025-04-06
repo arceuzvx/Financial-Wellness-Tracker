@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FinancialData } from '../types';
-import { SafeIcon } from '../utils/iconHelper';
 
 interface FormProps {
   onSubmit: (data: FinancialData) => void;
@@ -156,7 +155,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="monthlyIncome">Monthly Income</label>
-            <SafeIcon.Briefcase size={18} />
+            <span className="form-icon">💼</span>
             <input
               type="number"
               id="monthlyIncome"
@@ -172,7 +171,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="monthlyExpenses">Monthly Expenses</label>
-            <SafeIcon.CreditCard size={18} />
+            <span className="form-icon">💳</span>
             <input
               type="number"
               id="monthlyExpenses"
@@ -188,7 +187,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
           <div className="form-group">
             <label htmlFor="calculatedSavings">Calculated Monthly Savings</label>
-            <SafeIcon.DollarSign size={18} />
+            <span className="form-icon">💰</span>
             <input
               type="number"
               id="calculatedSavings"
@@ -198,12 +197,11 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               className="calculated-field"
               placeholder="Your calculated monthly savings"
             />
-            <small className="info-text">Based on your income minus expenses</small>
           </div>
 
           <div className="form-group">
-            <label htmlFor="financialGoal">Financial Goal</label>
-            <SafeIcon.Target size={18} />
+            <label htmlFor="financialGoal">Financial Goal Amount</label>
+            <span className="form-icon">🎯</span>
             <input
               type="number"
               id="financialGoal"
@@ -215,25 +213,26 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               step="0.01"
               placeholder="Enter your financial goal"
             />
-            <small className="info-text">How much money you want to save in total</small>
           </div>
 
-          <button type="button" className="next-button" onClick={handleNextStep}>
-            Continue to Personal Details
-          </button>
+          <div className="form-actions">
+            <button type="button" onClick={handleNextStep} className="next-button">
+              Next Step
+            </button>
+          </div>
         </div>
       )}
 
       {currentStep === 2 && (
         <div className="form-step">
-          <h2 className="form-step-title">Personal Information</h2>
+          <h2 className="form-step-title">Lifestyle Information</h2>
           <p className="form-step-description">
-            Tell us more about your personal situation to help us provide more relevant financial advice.
+            Tell us a bit more about your lifestyle to help us create a more personalized plan.
           </p>
 
           <div className="form-group">
-            <label htmlFor="occupation">Occupation / Industry</label>
-            <SafeIcon.Briefcase size={18} />
+            <label htmlFor="occupation">Occupation</label>
+            <span className="form-icon">👔</span>
             <input
               type="text"
               id="occupation"
@@ -241,75 +240,73 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
               value={formData.occupation}
               onChange={handleTextChange}
               required
-              placeholder="Enter your job title or industry"
+              placeholder="Enter your occupation"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="housingType">Housing Situation</label>
-            <SafeIcon.Home size={18} />
+          <div className="form-group select-group">
+            <label htmlFor="housingType">Housing Type</label>
+            <span className="form-icon">🏠</span>
             <select
               id="housingType"
               name="housingType"
               value={formData.housingType}
               onChange={handleSelectChange}
               required
-              className="select-input"
             >
-              <option value="" disabled>Select your housing situation</option>
-              <option value="rent">Renting</option>
-              <option value="own">Own home</option>
-              <option value="with family">Living with family</option>
+              <option value="">Select your housing type</option>
+              <option value="apartment">Apartment</option>
+              <option value="house">House</option>
+              <option value="condo">Condo</option>
+              <option value="with parents">Living with parents</option>
               <option value="other">Other</option>
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="commutingMethod">Primary Commuting Method</label>
-            <SafeIcon.Truck size={18} />
-            <select
-              id="commutingMethod"
-              name="commutingMethod"
-              value={formData.commutingMethod}
-              onChange={handleSelectChange}
-              required
-              className="select-input"
-            >
-              <option value="" disabled>Select your primary commuting method</option>
-              <option value="car">Car</option>
-              <option value="public transport">Public Transportation</option>
-              <option value="bicycle">Bicycle</option>
-              <option value="walk">Walk</option>
-              <option value="work from home">Work from Home</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="diningOutFrequency">How often do you dine out?</label>
-            <SafeIcon.Coffee size={18} />
+          <div className="form-group select-group">
+            <label htmlFor="diningOutFrequency">Dining Out Frequency</label>
+            <span className="form-icon">🍽️</span>
             <select
               id="diningOutFrequency"
               name="diningOutFrequency"
               value={formData.diningOutFrequency}
               onChange={handleSelectChange}
               required
-              className="select-input"
             >
-              <option value="" disabled>Select frequency</option>
-              <option value="rarely">Rarely (few times a month)</option>
-              <option value="sometimes">Sometimes (once a week)</option>
-              <option value="often">Often (2-3 times a week)</option>
-              <option value="very often">Very Often (almost daily)</option>
+              <option value="">How often do you dine out?</option>
+              <option value="rarely">Rarely (1-2 times per month)</option>
+              <option value="sometimes">Sometimes (1-2 times per week)</option>
+              <option value="often">Often (3-5 times per week)</option>
+              <option value="daily">Daily</option>
             </select>
           </div>
 
-          <div className="form-nav-buttons">
-            <button type="button" className="prev-button" onClick={handlePrevStep}>
-              Back
+          <div className="form-group select-group">
+            <label htmlFor="commutingMethod">Primary Commuting Method</label>
+            <span className="form-icon">🚗</span>
+            <select
+              id="commutingMethod"
+              name="commutingMethod"
+              value={formData.commutingMethod}
+              onChange={handleSelectChange}
+              required
+            >
+              <option value="">Select your primary commuting method</option>
+              <option value="car">Car</option>
+              <option value="public transit">Public Transit</option>
+              <option value="bike">Bicycle</option>
+              <option value="walk">Walking</option>
+              <option value="work from home">Work from home</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div className="form-actions">
+            <button type="button" onClick={handlePrevStep} className="prev-button">
+              Previous
             </button>
-            <button type="button" className="next-button" onClick={handleNextStep}>
-              Continue to Spending & Lifestyle
+            <button type="button" onClick={handleNextStep} className="next-button">
+              Next Step
             </button>
           </div>
         </div>
@@ -325,7 +322,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsExpenseDropdownOpen(!isExpenseDropdownOpen)} className="dropdown-label">
               Top Expense Categories
-              {isExpenseDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
+              {isExpenseDropdownOpen ? <span className="form-icon">🔼</span> : <span className="form-icon">🔽</span>}
             </label>
             
             {isExpenseDropdownOpen && (
@@ -433,7 +430,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsHobbyDropdownOpen(!isHobbyDropdownOpen)} className="dropdown-label">
               Hobbies & Interests
-              {isHobbyDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
+              {isHobbyDropdownOpen ? <span className="form-icon">🔼</span> : <span className="form-icon">🔽</span>}
             </label>
             
             {isHobbyDropdownOpen && (
@@ -490,7 +487,7 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <div className="form-group checkbox-group">
             <label onClick={() => setIsPriorityDropdownOpen(!isPriorityDropdownOpen)} className="dropdown-label">
               Financial Priorities
-              {isPriorityDropdownOpen ? <SafeIcon.ChevronUp size={16} /> : <SafeIcon.ChevronDown size={16} />}
+              {isPriorityDropdownOpen ? <span className="form-icon">🔼</span> : <span className="form-icon">🔽</span>}
             </label>
             
             {isPriorityDropdownOpen && (
@@ -528,12 +525,50 @@ export const Form: React.FC<FormProps> = ({ onSubmit }) => {
             )}
           </div>
 
-          <div className="form-nav-buttons">
-            <button type="button" className="prev-button" onClick={handlePrevStep}>
-              Back
+          <div className="form-actions">
+            <button type="button" onClick={handlePrevStep} className="prev-button">
+              Previous
+            </button>
+            <button type="button" onClick={handleNextStep} className="next-button">
+              Next Step
+            </button>
+          </div>
+        </div>
+      )}
+
+      {currentStep === 4 && (
+        <div className="form-step">
+          <h2 className="form-step-title">Submit Your Information</h2>
+          <p className="form-step-description">
+            We're ready to create your personalized financial plan! Review your information and click "Generate Plan" to continue.
+          </p>
+
+          <div className="summary-section">
+            <h3>Financial Summary</h3>
+            <div className="summary-row">
+              <span className="summary-label">Monthly Income:</span>
+              <span className="summary-value">{formData.monthlyIncome}</span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Monthly Expenses:</span>
+              <span className="summary-value">{formData.monthlyExpenses}</span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Monthly Savings:</span>
+              <span className="summary-value">{calculatedSavings}</span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Financial Goal:</span>
+              <span className="summary-value">{formData.financialGoal}</span>
+            </div>
+          </div>
+
+          <div className="form-actions">
+            <button type="button" onClick={handlePrevStep} className="prev-button">
+              Previous
             </button>
             <button type="submit" className="submit-button">
-              Generate Financial Plan
+              Generate Plan
             </button>
           </div>
         </div>

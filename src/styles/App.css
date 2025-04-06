@@ -205,18 +205,47 @@ input {
 }
 
 .form-group::before {
-  content: "$";
+  content: "";
+}
+
+.form-icon {
   position: absolute;
   left: 1rem;
   bottom: 1rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  z-index: 1;
+  font-size: 1.2rem;
 }
 
 input:focus {
   border-color: var(--primary-color);
   outline: none;
   box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+select {
+  padding: 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c5ce7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  cursor: pointer;
+}
+
+select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.select-group .form-icon {
+  z-index: 1;
 }
 
 button[type="submit"] {
@@ -354,6 +383,17 @@ button[type="submit"]:hover {
 .category-badge.critical {
   background-color: var(--danger-color);
   color: #7d2e28;
+}
+
+.housing-style {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  border-left: 4px solid var(--primary-color);
 }
 
 .week-selector {
@@ -722,4 +762,16 @@ button[type="submit"]:hover {
 
 [data-theme='dark'] .dust-particle {
   opacity: 0.15;
+}
+
+.app-icon {
+  font-size: 1.5rem;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.intro-icon {
+  font-size: 1.2rem;
+  margin-right: 8px;
+  vertical-align: middle;
 }

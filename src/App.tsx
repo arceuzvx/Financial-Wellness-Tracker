@@ -6,7 +6,6 @@ import { Footer } from './components/Footer';
 import { generateFinancialPlan } from './utils/financialCalculations';
 import { FinancialData, FinancialPlan as FinancialPlanType } from './types';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { SafeIcon } from './utils/iconHelper';
 import './styles/App.css';
 
 function App() {
@@ -42,7 +41,7 @@ function App() {
         <header>
           <div className="header-content">
             <h1>
-              <SafeIcon.DollarSign size={24} />
+              <span className="app-icon">💰</span>
               Financial Wellness Buddy
             </h1>
             <ThemeToggle />
@@ -53,7 +52,7 @@ function App() {
           {!plan ? (
             <>
               <p className="intro">
-                <SafeIcon.TrendingUp size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                <span className="intro-icon">📈</span>
                 Enter your financial information below to receive a personalized 30-day improvement plan.
               </p>
               {showLoading ? (
