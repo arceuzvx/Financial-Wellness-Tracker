@@ -27,8 +27,6 @@ A React TypeScript application that helps users track and improve their financia
 
 Visit the live demo: [Financial Wellness Tracker](https://shreyyadutta.github.io/Financial-Wellness-Tracker/)
 
-Check out the video: [YouTube](https://youtu.be/fhsymwc5TRk)
-
 ## Getting Started
 
 ### Prerequisites
@@ -102,6 +100,6 @@ src/
 - Category-based color coding
 - Responsive layout that adapts to all screen sizes
 
-## A solo submission for the codebuff vibe coding hackathon
+
 
  
