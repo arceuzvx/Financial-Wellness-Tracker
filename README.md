@@ -25,7 +25,7 @@ A React TypeScript application that helps users track and improve their financia
 
 ## Live Demo
 
-Visit the live demo: [Financial Wellness Tracker](https://shreyyadutta.github.io/Financial-Wellness-Tracker/)
+Visit the live demo: [Financial Wellness Tracker](https://arceuzvx.github.io/Financial-Wellness-Tracker/)
 
 ## Getting Started
 
